@@ -175,11 +175,59 @@ const test = async () => {
             "img", 
             12345, 
             9);
+        
+        await pm.addProduct(
+            "Notebook HP",
+            "Ideal para juegos",
+            230000, 
+            "img", 
+            14312, 
+            2);
+        
+        await pm.addProduct(
+            "PS5",
+            "La mejor consola",
+            350000, 
+            "img", 
+            135421, 
+            2);
+        
+        await pm.addProduct(
+            "Smart TV Noblex",
+            "Tecnologia en alta definicion",
+            170000, 
+            "img", 
+            160963, 
+            2);
+        
+        await pm.addProduct(
+            "Zapatillas Nike",
+            "La mejor para running",
+            45000, 
+            "img", 
+            134235, 
+            2);
+        
+        await pm.addProduct(
+            "Samsung S23",
+            "Se le puede sacar fotos a la luna",
+            450000, 
+            "img", 
+            13986, 
+            2);
+        
+        await pm.addProduct(
+            "Iphone 12Pro",
+            "El futuro esta en tus manos",
+            400000, 
+            "img", 
+            19025, 
+            2);
     } catch (err) {
         console.log(`No se que pasa 2 ${err}`);
     } 
     //pm.getProducts();
-    pm.getProductById(7);
+    //pm.getProductById(7);
     //pm.getProductById(1);
     //pm.updateProduct(1, {title: 'Manaos', description: 'Lala', persona: 'humano'}); //la keys persona testea de que no se agreguen atributos no deseados
     //pm.deleteProduct(4);
