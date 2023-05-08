@@ -70,13 +70,13 @@ export default class ProductManager {
         } 
     }
 
-    async updateProduct(id, { campo }) {
+    async updateProduct(id, campo) {
         try {
-            const file = await fs.promises.readFile(this.path, 'utf-8');
-            const data = await JSON.parse(file);
+            const file = await fs.promises.readFile(this.path, 'utf-8'); // Leo el archivo
+            const data = await JSON.parse(file); // Parseo
             const prodId = await data.find((p) => p.id === id);
             if(prodId === undefined) {
-                return `No existe el ID ${prodId}`
+                return null;
             }  else {
                 const key = Object.keys(campo);
                 if (campo.hasOwnProperty('id')) {
@@ -90,20 +90,19 @@ export default class ProductManager {
                 let updt = {...prodId, ...campo}
                 // buscar el indice del producto a actualizar
                 let indexBuscado = data.findIndex(x => x.id == updt.id);
-
                 // Si lo encuentra, reemplaza sus propiedades por las del objeto actualizado
                 if (indexBuscado != -1) {
                 data[indexBuscado] = {...data[indexBuscado], ...updt};
                 await fs.promises.writeFile(this.path, JSON.stringify(data));
-                return data;
+                return data[indexBuscado];
                 }
             }
-                // en data tenemos toda la informacion del archivo desactualizado
-// y en updt tenemos el producto actualizado.
-// lo que hay que hacer es recorrer la data, buscar el producto que tenga
-// el id igual al updt.id y reemplazarlo.
-// entonces ahi tendriamos el objeto data actualizado y listo para
-// mandarlo al archivo.
+                // en data esta toda la informacion del archivo desactualizada
+                // y en updt esta el producto actualizado.
+                // lo que hay que hacer es recorrer la data, buscar el producto que tenga
+                // el id igual al updt.id y reemplazarlo.
+                // entonces ahi estaria el objeto data actualizado y listo para
+                // mandarlo al archivo.
                 
         } catch (err){
             console.log(`No puedo actualizar ${err}`);

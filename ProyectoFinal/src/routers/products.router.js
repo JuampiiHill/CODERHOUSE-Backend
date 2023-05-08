@@ -36,11 +36,10 @@ productsRouter.get('/:pid', async (req, res) => {
 //Actualizar producto por ID, nunca actualizar o eliminar el ID
 productsRouter.put('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
-    let { product } = req.body;
+    let updProduct = req.body;
     try {
-        pm.updateProduct(pid, product);
-        res.send();
-
+        let newProduct = await pm.updateProduct(pid, updProduct)
+        res.status(201).send(`Producto "${newProduct.title}" actualizado`);
     } catch (err) {
         res.status(400).send({ err });
     }
