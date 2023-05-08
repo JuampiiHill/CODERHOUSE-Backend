@@ -70,13 +70,13 @@ export default class ProductManager {
         } 
     }
 
-    async updateProduct(id, campo) {
+    async updateProduct(id, { campo }) {
         try {
             const file = await fs.promises.readFile(this.path, 'utf-8');
             const data = await JSON.parse(file);
             const prodId = await data.find((p) => p.id === id);
             if(prodId === undefined) {
-                console.log('No existe el ID')
+                return `No existe el ID ${prodId}`
             }  else {
                 const key = Object.keys(campo);
                 if (campo.hasOwnProperty('id')) {
@@ -94,8 +94,8 @@ export default class ProductManager {
                 // Si lo encuentra, reemplaza sus propiedades por las del objeto actualizado
                 if (indexBuscado != -1) {
                 data[indexBuscado] = {...data[indexBuscado], ...updt};
-                console.log(data);
                 await fs.promises.writeFile(this.path, JSON.stringify(data));
+                return data;
                 }
             }
                 // en data tenemos toda la informacion del archivo desactualizado
@@ -112,18 +112,16 @@ export default class ProductManager {
 
     async deleteProduct(id) {
         try {
-            const file = await fs.promises.readFile(this.path, 'utf-8'); 
-            const data = JSON.parse(file);
-            const indexBuscado = await data.findIndex((p) => p.id === id);
-            console.log(indexBuscado);
-            if (indexBuscado == -1) {
-                return null;
+            const file = await fs.promises.readFile(this.path, 'utf-8'); // Leo el archivo
+            const data = JSON.parse(file); // Parseo el archivo
+            const indexBuscado = await data.findIndex((p) => p.id === id); // Traigo el indice del producto que sea identico al id
+            if (indexBuscado == -1) { // Valido que la posicion sea correcta
+                return null; // Retorno null si la posicion no existe
             } else {
-                const deleteProduct = this.getProductById(indexBuscado);
-                data.splice(indexBuscado, 1);
-                console.log(`El producto con id:${id} ha sido eliminado`);
-                await fs.promises.writeFile(this.path, JSON.stringify(data));
-                return `Producto eliminado: ${deleteProduct}`;
+                const deleteProduct = data[indexBuscado]; // Guardo el producto antes de eliminarlo
+                data.splice(indexBuscado, 1); // Elimino
+                await fs.promises.writeFile(this.path, JSON.stringify(data)); // Escribo el archivo
+                return deleteProduct; // Retorno el producto eliminado
             }
             } catch (err) {
             return `No puedo eliminar el producto ${err}`;
