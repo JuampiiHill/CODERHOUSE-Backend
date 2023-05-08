@@ -66,7 +66,7 @@ export default class ProductManager {
             const prodId = data.find((p) => p.id === id);
             return prodId;
         } catch (err) {
-            console.log(`No puedo encontrar el ID ${err}`);
+            return `No puedo encontrar el ID ${err}`;
         } 
     }
 
@@ -115,15 +115,18 @@ export default class ProductManager {
             const file = await fs.promises.readFile(this.path, 'utf-8'); 
             const data = JSON.parse(file);
             const indexBuscado = await data.findIndex((p) => p.id === id);
+            console.log(indexBuscado);
             if (indexBuscado == -1) {
-                console.log('No existe el ID');
+                return null;
             } else {
+                const deleteProduct = this.getProductById(indexBuscado);
                 data.splice(indexBuscado, 1);
                 console.log(`El producto con id:${id} ha sido eliminado`);
                 await fs.promises.writeFile(this.path, JSON.stringify(data));
+                return `Producto eliminado: ${deleteProduct}`;
             }
             } catch (err) {
-            console.log(`No puedo eliminar el producto ${err}`)
+            return `No puedo eliminar el producto ${err}`;
         }
         }
 

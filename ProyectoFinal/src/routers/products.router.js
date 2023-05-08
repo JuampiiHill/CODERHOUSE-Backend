@@ -39,7 +39,7 @@ productsRouter.put('/:pid', async (req, res) => {
     let { product } = req.body;
     try {
         pm.updateProduct(pid, palabra);
-        res.send('Todo OK');
+        res.send();
 
     } catch (err) {
         res.status(400).send({ err });
@@ -50,7 +50,7 @@ productsRouter.put('/:pid', async (req, res) => {
 
 
 
-// Eliminar producto por ID // Elimina el prod pero no me dice eliminado exitosamente si no p no encontrado
+// Eliminar producto por ID // OK
 productsRouter.delete('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
     try {
