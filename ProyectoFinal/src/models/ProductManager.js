@@ -40,7 +40,7 @@ export default class ProductManager {
                     product.id = this.#getId()
                     products.push(product);
                     await fs.promises.writeFile(this.path, JSON.stringify(products));
-                    return products;
+                    return product;
                 }
             }
         } catch (err) {

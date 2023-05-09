@@ -39,7 +39,7 @@ productsRouter.post('/', async (req, res) => {
     const newProduct = req.body;
     try {
         let add = await pm.addProduct(newProduct);
-        res.status(201).send(add);
+        res.status(201).send(`Se agrego el producto: "${add.title}"`);
     } catch (err) {
         res.status(400).send(err);
     }
