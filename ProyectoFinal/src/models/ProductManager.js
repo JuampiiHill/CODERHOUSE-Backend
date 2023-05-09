@@ -10,18 +10,20 @@ export default class ProductManager {
         this.path = './products.json';
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
+    async addProduct(newProduct) {
         try {
+            const {title, description, price, code, stock, status = true, category, thumbnail} = newProduct;
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
             const product = {
                 title,
                 description,
                 price,
-                thumbnail,
                 code,
                 stock,
-                id: this.#getId()
+                status,
+                category,
+                thumbnail
             };
                     // Verificar que todos los campos obligatorios - OK
             if (this.validarCampos(product)) {
@@ -35,12 +37,14 @@ export default class ProductManager {
                 if (codeRepe) {
                     console.log("Codigo repetido");
                 } else {
+                    product.id = this.#getId()
                     products.push(product);
-                await fs.promises.writeFile(this.path, JSON.stringify(products));
+                    await fs.promises.writeFile(this.path, JSON.stringify(products));
+                    return products;
                 }
             }
         } catch (err) {
-            console.log(`No puedo agregar el producto, ${err}`);
+            return err;
         }
     }
 
@@ -234,4 +238,4 @@ const test = async () => {
     //pm.deleteProduct(2);
     }
 
-    test();
+    //test();

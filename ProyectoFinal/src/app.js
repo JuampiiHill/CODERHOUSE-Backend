@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/products', productsRouter);
+//app.use('/api/carts', cartsRouter);
 
 
 app.listen(port, () => {

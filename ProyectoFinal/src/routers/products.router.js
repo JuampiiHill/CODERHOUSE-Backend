@@ -33,7 +33,19 @@ productsRouter.get('/:pid', async (req, res) => {
     };
 });
 
-//Actualizar producto por ID, nunca actualizar o eliminar el ID
+// Agregar un nuevo producto, ID Autoincrementable, title, description, code, price, status, stock, category, thumbnails
+// status: true por defcto. Todos los campos oligatorios a exepcion de thumbnails
+productsRouter.post('/', async (req, res) => {
+    const newProduct = req.body;
+    try {
+        let add = await pm.addProduct(newProduct);
+        res.status(201).send(add);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
+//Actualizar producto por ID, nunca actualizar o eliminar el ID // OK
 productsRouter.put('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
     let updProduct = req.body;
@@ -44,10 +56,6 @@ productsRouter.put('/:pid', async (req, res) => {
         res.status(400).send({ err });
     }
 })
-
-
-
-
 
 // Eliminar producto por ID // OK
 productsRouter.delete('/:pid', async (req, res) => {
