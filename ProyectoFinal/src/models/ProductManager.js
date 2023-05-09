@@ -12,7 +12,7 @@ export default class ProductManager {
 
     async addProduct(newProduct) {
         try {
-            const {title, description, price, code, stock, status = true, category, thumbnail} = newProduct;
+            const {title, description, price, code, stock, status = true, category} = newProduct;
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
             const product = {
@@ -23,7 +23,6 @@ export default class ProductManager {
                 stock,
                 status,
                 category,
-                thumbnail
             };
                     // Verificar que todos los campos obligatorios - OK
             if (this.validarCampos(product)) {
@@ -37,6 +36,7 @@ export default class ProductManager {
                 if (codeRepe) {
                     console.log("Codigo repetido");
                 } else {
+                    product.thumbnail = [];
                     product.id = this.#getId()
                     products.push(product);
                     await fs.promises.writeFile(this.path, JSON.stringify(products));
