@@ -24,29 +24,33 @@ export default class ProductManager {
                 status,
                 category,
             };
-                    // Verificar que todos los campos obligatorios - OK
-            if (this.validarCampos(product)) {
-                // verificar que code no se repita - OK
-                let codeRepe = false;
-                products.forEach((product) => {
+
+            if (! this.validarCampos(product)) {
+                return null;
+            }
+            
+            let codeRepe = false;
+            products.forEach((product) => {
                 if (product.code === code) {
                     codeRepe = true;
                 }
                 });
+
                 if (codeRepe) {
-                    console.log("Codigo repetido");
-                } else {
-                    product.thumbnail = [];
-                    product.id = this.#getId()
-                    products.push(product);
-                    await fs.promises.writeFile(this.path, JSON.stringify(products));
-                    return product;
+                    //console.log("Codigo repetido");
+                    return "repetido";
                 }
+
+                product.thumbnail = [];
+                product.id = this.#getId()
+                products.push(product);
+                await fs.promises.writeFile(this.path, JSON.stringify(products));
+                return product;
+                
+            } catch (err) {
+                return err;
             }
-        } catch (err) {
-            return err;
         }
-    }
 
     #getId() {
         const oldId = this.#id;
@@ -136,7 +140,7 @@ export default class ProductManager {
             let values = Object.values(product);
             values.forEach((valor) => {
                 if (valor === null || valor === undefined || valor.length === 0) {
-                console.log("Los campos deben ser obligatorios");
+                //console.log("Los campos deben ser obligatorios");
                 validos =  false;
                 }
             });

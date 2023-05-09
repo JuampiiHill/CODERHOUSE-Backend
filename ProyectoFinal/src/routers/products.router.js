@@ -39,7 +39,13 @@ productsRouter.post('/', async (req, res) => {
     const newProduct = req.body;
     try {
         let add = await pm.addProduct(newProduct);
+        if(!add) {
+            res.status(400).send(`Los campos deben ser obligatorios`)
+        }else if (add === "repetido") {
+            res.status(400).send("Codigo existente");
+        } else {
         res.status(201).send(`Se agrego el producto: "${add.title}"`);
+    }
     } catch (err) {
         res.status(400).send(err);
     }
@@ -53,7 +59,7 @@ productsRouter.put('/:pid', async (req, res) => {
         let newProduct = await pm.updateProduct(pid, updProduct)
         res.status(201).send(`Producto "${newProduct.title}" actualizado`);
     } catch (err) {
-        res.status(400).send({ err });
+        res.status(400).send(`Id no encontrado`);
     }
 })
 
