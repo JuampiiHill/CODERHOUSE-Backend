@@ -113,7 +113,7 @@ export default class ProductManager {
                 // mandarlo al archivo.
                 
         } catch (err){
-            console.log(`No puedo actualizar ${err}`);
+            return `No puedo actualizar ${err}`;
         }
     }
 

@@ -1,5 +1,6 @@
 import express from 'express'; // Importo express
 import { productsRouter } from './routers/products.router.js'; // Importo productsRouter
+import { cartsRouter } from './routers/carts.router.js';
 
 // Creo mi app
 const app = express();
@@ -17,8 +18,8 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/api/products', productsRouter);
-//app.use('/api/carts', cartsRouter);
+//app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 app.listen(port, () => {
