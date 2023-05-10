@@ -25,9 +25,13 @@ cartsRouter.get('/:cid', async(req, res) => {
     }
 });
 
-cartsRouter.post('/:cid/product/pid', async(req, res) => {
+cartsRouter.post('/:cid/product/:pid', async(req, res) => {
+    const cid = parseInt(req.params.cid);
+    const pid = parseInt(req.params.pid);
     try {
-        
+        const addedProd = await cm.addProductToCart(cid, pid);
+        console.log(addedProd);
+        addedProd == null ? res.status(400).send('No existe el producto') : res.status(200).send('OK');
     } catch (error) {
         res.status(400).send(err);
         
