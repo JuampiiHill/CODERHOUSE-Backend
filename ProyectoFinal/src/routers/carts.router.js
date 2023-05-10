@@ -8,7 +8,7 @@ const cm = new CartsManager();
 // Crear Carrito con la estructura ID autoincrementable y prodructs = [];
 cartsRouter.post('/', async(req, res) => {
     try {
-        res.status(200).send(`Carrito creado exitosamente. ID: ${cm.addCart()}`);
+        res.status(200).send(cm.addCart());
     } catch (err) {
         res.status(400).send(`No puedo crear carro ${err}`);
     }

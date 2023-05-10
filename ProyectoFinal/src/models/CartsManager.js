@@ -41,7 +41,18 @@ async getProductsByCartId(cid) {
             return null;
         }
         // Si existe retorno los productos del carrito
-        return cart.products;
+        let listaProductos = [];
+
+        for (let index = 0; index < cart.products.length; index++) {
+            // Acceder a cada propiedad 'product'
+            let prodId = cart.products[index].product;
+            const prod = await pm.getProductById(prodId); // p.id
+            if(prod) {
+                listaProductos.push(prod);
+            }
+        }
+        return listaProductos;
+
     } catch (err) {
         return err;    
     }
@@ -65,7 +76,7 @@ async addProductToCart(cid, pid) {
         let cartUpdt = {};
         // Si existe recorro los productos de mi carrito
         // Valido si el producto es igual al pid y si existe la propiedad quantity en el objeto
-        /**cart.products.forEach(p => {
+        cart.products.forEach(p => {
             //p.product hace referencia al id que se menciona en el ejercicio POST
             if (p.product === pid) {
                 ifProductExistInProducts = true;
@@ -76,17 +87,36 @@ async addProductToCart(cid, pid) {
                     // Si quiantity no existe le seteo con valor 1
                     p.quantity = 1;
                 }
-                cartUpdt = {...p};
+                // Seteo las propiedades del carro actualizado
+                cartUpdt.product = p.product;
+                cartUpdt.quantity = p.quantity;
             }
-        }); */
+        });
+
+
         if (ifProductExistInProducts == false) {
-            cartUpdt = {"product": pid, "quantity": 1}
+            cartUpdt.product = pid;
+            cartUpdt.quantity = 1;
             cart.products.push(cartUpdt);
         }
-        data[indexCart] = {...data[indexCart], ...cartUpdt};
-        console.log(indexCart);
-        console.log(data);
 
+        let productoAgregado = false;
+        // Busco si el producto actualizado existe en la lista de productos
+        data[indexCart].products.forEach(x => {
+            // Si esxiste le actualizo el quantity
+            if (x.product == cartUpdt.product) {
+                productoAgregado = true
+                x.quantity = cartUpdt.quantity;
+            }
+
+        });
+
+        // Si el producto no existe en la lista, lo agrego
+        if(!productoAgregado) {
+            data[indexCart].products.push({...cartUpdt});
+        }
+
+        // Actualizo archivo
         await fs.promises.writeFile(this.path, JSON.stringify(data));
         // Retorno 1 para validar que todo es OK
         return 1;
@@ -95,8 +125,6 @@ async addProductToCart(cid, pid) {
         return err;
     }
 }
-
-
 }
 
 const cm = new CartsManager('../carts.json');
