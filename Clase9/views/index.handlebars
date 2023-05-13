@@ -1,0 +1,14 @@
+<div>
+    <h1>¡Hola, {{random.name}} {{random.surname}}! ¡Que gusto verte!</h1>
+    <p>Tenes {{random.edad}}, tu correo electronico es {{random.correo}} y te puedo llamar al {{random.tel}}</p>
+</div>
+
+{{#if isAdmin}}
+<ul>
+    {{#each foods}}
+        <li>{{this.name}} - {{this.price}}</li>
+    {{/each}}
+</ul>
+{{else}}
+    <h2>No tenes permisos para acceder a la lista de comidas</h2>
+{{/if}}
