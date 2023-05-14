@@ -13,7 +13,7 @@ class UserController {
             {
                 name: "Milagros",
                 surname: "Valido",
-                edad: "28",
+                edad: "25",
                 correo: "milu_valido@hotmail.com",
                 tel: 2323336744,
                 rol: "admin"
@@ -21,7 +21,7 @@ class UserController {
             {
                 name: "Esteban",
                 surname: "Proto",
-                edad: "28",
+                edad: "48",
                 correo: "estebanproto@algo.com",
                 tel: 2323987654,
                 rol: "user"
@@ -29,7 +29,7 @@ class UserController {
             {
                 name: "Manuel",
                 surname: "Martinez",
-                edad: "28",
+                edad: "56",
                 correo: "mmartinez@net.com",
                 tel: 1123249967,
                 rol: "user"
@@ -37,7 +37,7 @@ class UserController {
             {
                 name: "Maria",
                 surname: "Mansa",
-                edad: "28",
+                edad: "38",
                 correo: "mansamaria@gmail.com",
                 tel: 1156734611,
                 rol: "user"
