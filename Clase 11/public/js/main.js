@@ -1,4 +1,4 @@
-const io = io();
+const socket = io();
 let user;
 const inputMSJ = document.getElementById('msj');
 
@@ -13,7 +13,7 @@ Swal.fire({
     allowOutsideClick: false,
 }).then ((result) => {
     user = result.value;
-    Socket.emit('sayhello', user)
+    socket.emit('sayhello', user)
 });
 
 function render(data) {
@@ -21,23 +21,23 @@ function render(data) {
         return `<div><strong>${elem.user}:</strong><em>${elem.msj}</em></div>`;
     })
     .join(' ');
-    document.getElementById('message').innetHTML = html;
+    document.getElementById('messages').innerHTML = html;
 }
 inputMSJ.addEventListener('keyup', event => {
     if (event.key === 'Enter') {
         let msj = inputMSJ.value;
         if (msj.trim().length > 0) {
-            Socket.emit('message', {user, msj});
+            socket.emit('message', {user, msj});
             inputMSJ.value = '';
         }
     }
 });
 
-Socket.on('messages', data => {
+socket.on('messages', data => {
     render(data);
 });
 
-Socket.on('connected', (data) => {
+socket.on('connected', (data) => {
     Swal.fire({
         text: `Se conecto ${data}`,
         toast: true,
