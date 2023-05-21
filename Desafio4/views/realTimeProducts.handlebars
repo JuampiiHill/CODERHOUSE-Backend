@@ -1,23 +1,7 @@
-<h1>Listado de productos en tiempo real</h1>
-<ul>
-    {{#each allProducts}}
-        <li>Producto: {{this.title}} Descripcion: {{this.description}} Precio: ${{this.price}} Codigo: {{this.code}} Stock: {{this.stock}} Categoria: {{this.category}} {{this.thumnnail}}</li>
-    {{/each}}
-</ul>
-<!--
-<div>
-    <p>Agregar un nuevo producto</p>
-    <form method='post' action="/realtimeproducts">
-        <input type="text" id="name"= placeholder="Nombre"/>
-        <input type="text" id="price"= placeholder="Precio"/>
-        <input type="text" id="description"= placeholder="Describa su producto"/>
-        <input type="text" id="code"= placeholder="Codigo de su producto"/>
-        <input type="number" id="stock"= placeholder="Ingrese stock"/>
-        <input type="text" id="category"= placeholder="Categoria"/>
-        <button type="submit" onclick="addProduct()">Agregar</button>
-    </form>
-</div>
--->
+	<h1>Lista de productos en tiempo real</h1>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/main.js"></script>
+		<h2>Lista de Productos</h2>
+		<div id='allProducts'></div>
+
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/index.js'></script>

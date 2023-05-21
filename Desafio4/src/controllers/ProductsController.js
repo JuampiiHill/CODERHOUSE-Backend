@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default class ProductManager {
+export default class ProductsController {
     #id = 1;
 
     constructor() {
@@ -148,4 +148,4 @@ export default class ProductManager {
         }
     }
 
-const pm = new ProductManager('./products.json');
+export const pc = new ProductsController('./products.json');

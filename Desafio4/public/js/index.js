@@ -6,18 +6,19 @@ const render = async(data) => {
     await data.forEach((element) => {
         const elementHtml = document.createElement('div');
         elementHtml.innerHTML = `<h2>${element.title}</h2>
-        <p>${element.description}</p>
-        <p>${element.code}</p>
-        <p>${element.price}</p>
-        <p>${element.stock}</p>
-        <p>${element.category}</p>`;
+        <p>Descripcion: ${element.description}</p>
+        <p>Codigo: ${element.code}</p>
+        <p>Precio: ${element.price}</p>
+        <p>Stock: ${element.stock}</p>
+        <p>Categoria: ${element.category}</p>`;
         html.appendChild(elementHtml);
     });
 };
 
-socket.on("product_list", (data) => {
+socket.on("allProducts", (data) => {
     render(data);
-})
-socket.on('product_list_updated', (data) => {
+});
+
+socket.on('updated_list', (data) => {
     render(data);
 });

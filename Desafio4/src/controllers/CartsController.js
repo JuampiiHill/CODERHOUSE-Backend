@@ -1,7 +1,7 @@
 import fs from 'fs';
-import ProductManager  from './ProductManager.js';
+import ProductsController  from './ProductsController.js';
 
-export default class CartsManager {
+export default class CartsController {
     #id = 1;
     constructor() {
         if (!fs.existsSync('./carts.json')) {
@@ -127,5 +127,5 @@ async addProductToCart(cid, pid) {
 }
 }
 
-const cm = new CartsManager('../carts.json');
-const pm = new ProductManager();
+const cc = new CartsController('../carts.json');
+const pc = new ProductsController();

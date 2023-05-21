@@ -1,13 +1,23 @@
+import express from 'express';
 import { Router } from 'express';
-import ProductManager from '../models/ProductManager.js'; // Importo la clase ProductManager
+import ProductsController from '../controllers/ProductsController.js'; // Importo la clase ProductManager
 
 
 const realTimeProducts = Router();
-const pm = new ProductManager();
+const pc = new ProductsController();
 
 realTimeProducts.get('/', async (req, res) => {
-let allProducts = await pm.getProducts();
-    res.render('realTimeProducts', {allProducts});
-})
+let allProducts = await pc.getProducts();
+try {
+    res.render('index', {allProducts});
+} catch (err) {
+    res.status(500).send({ err });
+}
+});
+
+realTimeProducts.get('/realtimeproducts', async (req, res ) =>{
+
+    res.render('realTimeProducts', {})
+} )
 
 export default realTimeProducts;
