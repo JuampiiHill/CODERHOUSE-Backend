@@ -42,4 +42,8 @@ cartRouter.delete('/:cid', async (req, res) => {
     res.status(200).send('OK');
 });
 
+cartRouter.get('/', async (req, res) => {
+    const carts = await cs.getCarts();
+    res.status(200).send(carts);
+})
 export default cartRouter;

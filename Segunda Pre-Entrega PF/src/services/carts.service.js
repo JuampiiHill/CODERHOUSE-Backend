@@ -56,6 +56,15 @@ class cartsService {
         cart.products = [];
         await cart.save();
     }
+
+    async getCarts() {
+        try {
+            const carts = await this.model.find().lean();
+            return carts
+        } catch (err) {
+            throw err;
+        }
+    }
 };
 
 const cs = new cartsService();
