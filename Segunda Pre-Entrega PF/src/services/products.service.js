@@ -40,7 +40,7 @@ class ProductsService {
     try {
       return await this.model.create(product);
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
