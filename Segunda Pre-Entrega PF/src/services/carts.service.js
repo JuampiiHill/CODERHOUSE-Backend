@@ -17,7 +17,7 @@ class cartsService {
     async getCartById(id) {
         try {
             const cart = await this.model.findOne({_id: id}).populate('products.product').lean();;
-            console.log(cart);
+            // console.log(cart);
             return cart;
         } catch (err) {
             throw err;            
@@ -35,7 +35,7 @@ class cartsService {
     async updateQuantity(cid, pid, quantity) {
         const cart = await this.model.findOne({_id: cid});
         for (const product of cart.products) {
-            // Lo que hacemos con toString() es obtener el valor del ObjectId como string y poder comparar directamente con lo que recibimos de params
+            // Lo que hace toString() es obtener el valor del ObjectId como string y poder comparar directamente con lo que recibimos de params
             if (product.product._id.toString() === pid) {
                 product.quantity = quantity;
                 break;
@@ -46,7 +46,8 @@ class cartsService {
 
     async deleteFromCart(cid, pid) {
         const cart = await this.model.findOne({_id: cid});
-        cart.products = cart.products.filter(product => product.product._id.toString() !== pid)
+        console.log('Soy cart prod', cart.products)
+        cart.products = cart.products.filter(product => product.product?._id && product.product._id.toString() !== pid)
         await cart.save();
     }
 
@@ -56,8 +57,6 @@ class cartsService {
         await cart.save();
     }
 };
-
-
 
 const cs = new cartsService();
 export default cs;

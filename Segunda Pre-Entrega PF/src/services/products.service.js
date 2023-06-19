@@ -5,19 +5,27 @@ class ProductsService {
     this.model = productsModel;
   }
 
-  async getAllProducts(limit = 100, page = 1, category = false, sort) {
-    const paginateArg = { lean: true, limit, page }
-    let filter = {}
+  async getAllProducts(limit = 100, page = 1, sort, category = false, availability) {
+    try {
+      const paginateArg = { lean: true, limit, page }
+    let query = {};
     if (category) {
-           filter = { category };
-      }
+      query.category = category;
+    }
+    if (availability !== undefined) {
+      query.status = availability;
+    }
     if (sort === "asc") {
       paginateArg.sort = {price: 1};
     }
     if (sort === "desc") {
       paginateArg.sort = {price: -1};
     }
-    return this.model.paginate(filter, paginateArg);
+    const data = await this.model.paginate(query, paginateArg);
+    return data
+  } catch (err) {
+    throw new Error(`Error ${err}`);
+  }
   }
 
   async getProductById(id) {
@@ -59,15 +67,6 @@ class ProductsService {
       throw err;
     }
   };
-
-  // async getAllProductsForView(limit = 10000, page = 1, category = false) {
-  //   var filter = {}
-  //   if (category) {
-  //     filter = { category };
-  //   }
-  //   return this.model.paginate(filter, {lean: true, page, limit });
-  // }
-
 }
 
 const ps = new ProductsService();

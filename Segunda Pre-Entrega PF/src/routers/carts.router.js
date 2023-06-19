@@ -25,8 +25,8 @@ cartRouter.put('/:cid/products/:pid', async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     const quantity = req.body.quantity;
-    await cs.updateQuantity(cid, pid, quantity);
-    res.status(200).send('OK');
+    const data = await cs.updateQuantity(cid, pid, quantity);
+    res.status(200).send({data});
 });
 
 cartRouter.delete('/:cid/products/:pid', async (req, res) => {
