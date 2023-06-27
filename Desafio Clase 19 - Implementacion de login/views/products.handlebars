@@ -1,0 +1,105 @@
+<nav class='navbar navbar-expand-lg navbar-light bg-light'>
+	<div class='container-fluid'>
+		<a class='navbar-brand' href='#'>Lista de productos</a>
+			<button
+					class='navbar-toggler'
+					type='button'
+					data-bs-toggle='collapse'
+					data-bs-target='#navbarSupportedContent'
+					aria-controls='navbarSupportedContent'
+					aria-expanded='false'
+					aria-label='Toggle navigation'>
+					<span class='navbar-toggler-icon'></span>
+			</button>
+		<div
+			class='collapse navbar-collapse'
+			id='navbarSupportedContent'>
+				<ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
+					{{#if user}}
+						<li class='nav-item'>
+							<a class='nav-link active' aria-current='page' href='/index'>
+							
+							<h5><img src='{{user.img}}' 
+							class='img-fluid' 
+							style='border-radius: 50%; 
+							max-height: 30px;'
+							/>Bienvenido {{user.first_name}} - Rol: {{user.role}}</h5>
+							</a>
+						</li>
+							<li class='nav-item'>
+								<form action='/api/carts' method='post'>
+									<button
+										class='btn btn-outline'
+										type='submit'>
+										Mis compras (en desarrollo)
+									</button>
+								</form>
+							</li>
+							<li class='nav-item'>
+								<form action='/api/users/logout' method='post'>
+									<button
+										class='btn btn-outline-danger'
+										type='submit'>
+										Cerrar Sesión
+									</button>
+								</form>
+							</li>
+					{{/if}}
+				</ul>
+
+		</div>
+	</div>
+</nav>
+<div><br /></div>
+<div class='container'>
+	<div class='row'>
+		{{#each products}}
+		<div class="col-md-3">
+			<div class="card">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item"><b>Producto:</b> {{title}}</li>
+				<li class="list-group-item"><b>Descripcion:</b> {{description}}</li>
+				<li class="list-group-item"><b>Precio:</b> {{price}}</li>
+				<li class="list-group-item"><b>Codigo:</b> {{code}}</li>
+				<li class="list-group-item"><b>Stock:</b> {{stock}}</li>
+				<li class="list-group-item"><b>Estado:</b> {{status}}</li>
+				<li class="list-group-item"><b>Categoria:</b> {{category}}</li>
+				<button class 'btn btn-sm btn-success addToCartBtn' data-product-id="{{_id}}">Agregar al carrito(en desarrollo)</button>
+			</ul>
+			</div>
+		</div>
+		{{/each}}
+
+ <div class="row mt-4">
+    <div class="col-lg-12">
+      <nav class="d-flex justify-content-end">
+        <ul class="pagination">
+          {{#if prevLink}}
+          <li class="page-item">
+            <a class="page-link" href="{{prevLink}}">Prev</a>
+          </li>
+          {{else}}
+          <li class="page-item disabled">
+            <span class="page-link">Prev</span>
+          </li>
+          {{/if}}
+          <li class="page-item">
+            <span class="page-link">Pag. {{pag}} of {{totalPages}}</span>
+          </li>
+          {{#if nextLink}}
+          <li class="page-item">
+            <a class="page-link" href="{{nextLink}}">Next</a>
+          </li>
+          {{else}}
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+          {{/if}}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+	</div>
+</div>
