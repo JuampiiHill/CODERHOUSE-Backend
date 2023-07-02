@@ -1,62 +1,51 @@
 import { Router } from "express";
-import passport from "passport";
 import userService from "../services/user.service.js";
-import { comparePassword } from "../utils/encript.util.js";
 
 const userRouter = Router();
 
-userRouter.post(
-  "/",
-  passport.authenticate("register", { failureRedirect: "/registererror" }),
-  async (req, res) => {
-    res.redirect("/");
-  }
-);
-
-// userRouter.post(
-//   "/auth",
-//   passport.authenticate("login", { failureRedirect: "/loginerror" }),
-//   async (req, res) => {
-//     if (!req.user) return res.status(400).send("User no found");
-//     const user = req.user;
-//     delete user.password;
-//     req.session.user = user;
-//     res.redirect("/");
-//   }
-// );
+userRouter.post('/', async (req, res) => {
+	const userData = req.body;
+	try {
+		const newUser = await userService.createUser(userData);
+		res.redirect('/')
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+});
 
 userRouter.post("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
 
-userRouter.post('/auth', async(req, res) => {
-  const { email, password } = req.body;
+userRouter.post('/auth', async (req, res) => {
+	const { email, password } = req.body;
   const admin = {
-    email: 'adminCoder@coder.com',
-    password: 'adminCod3r123',
-  };
-  try {
-    const user = await userService.getByEmail(email);
+        email: 'adminCoder@coder.com',
+        password: 'adminCod3r123',
+      };
+	try {
+		const user = await userService.getByEmail(email);
+		// Chequeo de datos
     if (email === admin.email && password === admin.password) {
       req.session.user = {
         email: admin.email,
         role: 'admin',
         first_name: 'Coder',
         last_name: 'Admin',
+        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIsYqT3R5in7bo9qsoAUZU_yPja6jQkJuBETfbtQoIaw&s'
       };
-      res.redirect('/products');
+      res.redirect('/')
       return;
-    } else if (!user || !comparePassword(user,password)) {
-    } else {
-      req.session.user = user;
-      res.redirect('/products');
-      return;
-    }
-  } catch (err) {
-    throw new Error(`Error ${err}`);
-  }
-  res.redirect('/loginerror');
+    } else if (!user) throw new Error('Invalid data'); // Existe el usuario?
+		if (user.password !== password) throw new Error('Invalid data'); // La contraseña es correcta?
+
+		// Si todo está bien, guardo el usuario en la sesión
+		req.session.user = user;
+		res.redirect('/');
+	} catch (error) {
+		res.redirect('/loginerror')
+	}
 });
 
 export default userRouter;

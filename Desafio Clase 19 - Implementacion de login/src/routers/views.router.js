@@ -1,6 +1,5 @@
 import { Router } from "express";
-import ps from "../services/products.service.js";
-import cs from "../services/carts.service.js";
+import ps from "../services/products.service.js"
 import { isAuth, isGuest } from "../middleware/auth.middleware.js";
 
 const viewsRouter = Router();
@@ -18,7 +17,7 @@ viewsRouter.get("/login", isAuth, (req, res) => {
 });
 
 viewsRouter.get("/products", isGuest, async (req, res) => {
-  const { limit = 10, page = 1, sort, category, availability } = req.query;
+  const { limit = 8, page = 1, sort, category, availability } = req.query;
   const user = req.session.user;
   try {
     const data = await ps.getAllProducts(
@@ -61,17 +60,6 @@ viewsRouter.get("/products", isGuest, async (req, res) => {
     });
   } catch (error) {
     res.status(500).send(`No se pudieron obtener los productos`);
-  }
-});
-
-viewsRouter.get("/carts/:cid", async (req, res) => {
-  const cid = req.params.cid;
-  try {
-    const cart = await cs.getCartById(cid);
-    console.log(cart);
-    res.render("carts", { cart });
-  } catch (err) {
-    throw err;
   }
 });
 

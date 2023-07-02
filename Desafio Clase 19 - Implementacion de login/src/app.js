@@ -1,15 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
-import passport from 'passport';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cookieParser from 'cookie-parser';
 
 import productsRouter from "./routers/products.router.js";
-import cartRouter from "./routers/carts.router.js";
 import viewsRouter from "./routers/views.router.js";
-import inicializePassport from "./config/passport.config.js";
 import userRouter from "./routers/user.router.js";
 
 const app = express();
@@ -40,16 +37,11 @@ app.use(
   })
 );
 
-inicializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
-
 mongoose.connect(
   "mongodb+srv://juampiiHill:060966@codercluster.invhles.mongodb.net/?retryWrites=true&w=majority"
 );
 
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
 app.use("/", viewsRouter);
 app.use('/api/users', userRouter)
 
